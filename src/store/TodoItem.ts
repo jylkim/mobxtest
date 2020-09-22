@@ -5,7 +5,6 @@ export default class TodoItem {
 
     @observable text: string = '';
     @observable isDone: boolean = false;
-    @observable isEditing: boolean = false;
 
     constructor(text: string) {
         this.text = text;
@@ -19,10 +18,5 @@ export default class TodoItem {
     @action
     updateText = (text: string) => {
         this.text = text;
-    }
-
-    @action
-    toggleIsEdit = () => {
-      this.isEditing = !this.isEditing;
     }
 }
