@@ -2,6 +2,7 @@ import React, {useState } from 'react';
 import TodoItemClass  from "../store/TodoItem";
 import { useStore } from "../hooks/useStore";
 import {onEnterPress} from "../hooks/useEnter";
+import {useObserver} from "mobx-react";
 
 interface Props {
     todo: TodoItemClass;
@@ -9,28 +10,24 @@ interface Props {
 
 export const TodoItem = ({todo}: Props) => {
     const todoList = useStore();
-    const [newText, setText] = useState('');
-    const [isEditing, setEdit] = useState(false);
 
     const saveText = () => {
-      todo.updateText(newText);
-      setEdit(false);
-      setText('');
+      todo.toggleIsEdit();
     };
 
-    return (
+    return useObserver(() => 
         <div className="todo-item">
             {
-                isEditing ?
+                todo.isEditing ?
                     <div>
-                        <input type="text" onKeyDown={onEnterPress(saveText)} onChange={(e) => setText(e.target.value)}/>
+                        <input type="text" onKeyDown={onEnterPress(saveText)} onChange={(e) => todo.updateText(e.target.value)}/>
                         <button onClick={saveText}>save</button>
                     </div>
                     :
                     <div>
                         <span>{todo.text}</span>
                         <input type="checkbox" onChange={todo.toggleIsDone} defaultChecked={todo.isDone}></input>
-                        <button onClick={() => setEdit(true)}>edit</button>
+                        <button onClick={todo.toggleIsEdit}>edit</button>
                         <button onClick={() => todoList.removeTodo(todo)}>X</button>
                     </div>
             }
