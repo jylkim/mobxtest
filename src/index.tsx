@@ -7,7 +7,7 @@ import {TodoList} from "./store/TodoList";
 const todoList = new TodoList([
     'Should Starting Writing in React',
     'Should Learn MobX',
-    'Should Watch Once Piece :)'
+    'Should Sleep'
 ]);
 
 ReactDOM.render(
